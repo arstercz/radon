@@ -34,7 +34,7 @@ func TestAggregateExecutor(t *testing.T) {
 			},
 			{
 				Name: "score",
-				Type: querypb.Type_INT32,
+				Type: sqltypes.Decimal,
 			},
 		},
 		Rows: [][]sqltypes.Value{
@@ -52,7 +52,7 @@ func TestAggregateExecutor(t *testing.T) {
 			},
 			{
 				Name: "score",
-				Type: querypb.Type_INT32,
+				Type: sqltypes.Decimal,
 			},
 		},
 		Rows: [][]sqltypes.Value{
@@ -155,8 +155,9 @@ func TestAggregateAvgExecutor(t *testing.T) {
 	r1 := &sqltypes.Result{
 		Fields: []*querypb.Field{
 			{
-				Name: "score",
-				Type: querypb.Type_FLOAT32,
+				Name:     "score",
+				Type:     querypb.Type_FLOAT32,
+				Decimals: 2,
 			},
 			{
 				Name: "count(score)",
@@ -174,8 +175,9 @@ func TestAggregateAvgExecutor(t *testing.T) {
 	r2 := &sqltypes.Result{
 		Fields: []*querypb.Field{
 			{
-				Name: "score",
-				Type: querypb.Type_FLOAT32,
+				Name:     "score",
+				Type:     querypb.Type_FLOAT32,
+				Decimals: 2,
 			},
 			{
 				Name: "count(score)",
@@ -218,8 +220,8 @@ func TestAggregateAvgExecutor(t *testing.T) {
 		"select avg(distinct score) as score, count(score) from A where id>8",
 	}
 	results := []string{
-		"[[3.6666666666666665]]",
-		"[[8 4]]",
+		"[[3.666667]]",
+		"[[8.000000 4]]",
 	}
 
 	for i, query := range querys {
@@ -367,7 +369,7 @@ func TestAggregateGroup(t *testing.T) {
 			},
 			{
 				Name: "sum(score)",
-				Type: querypb.Type_INT32,
+				Type: sqltypes.Decimal,
 			},
 		},
 		Rows: [][]sqltypes.Value{
@@ -386,7 +388,7 @@ func TestAggregateGroup(t *testing.T) {
 			},
 			{
 				Name: "sum(score)",
-				Type: querypb.Type_INT32,
+				Type: sqltypes.Decimal,
 			},
 		},
 		Rows: [][]sqltypes.Value{
